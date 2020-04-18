@@ -2,11 +2,6 @@ var http = require('http');
 var fs = require('fs');
 
 
-
- 
-myReadStream.pipe(myWriteStream);
-
-
 // // manual way to pipe
 // myReadStream.on('data', function(chunk){
 //     console.log('new chunk received');
