@@ -1,0 +1,28 @@
+{
+  "name": "first-server",
+  "version": "1.0.0",
+  "description": "following thenetninja's tutorial",
+  "main": "app.js",
+  "dependencies": {
+    "ejs": "^3.0.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aboredkeyboardwarrior/node-practice.git"
+  },
+  "keywords": [
+    "ninja",
+    "nodejs"
+  ],
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aboredkeyboardwarrior/node-practice/issues"
+  },
+  "homepage": "https://github.com/aboredkeyboardwarrior/node-practice#readme"
+}
