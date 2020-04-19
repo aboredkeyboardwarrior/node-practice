@@ -2,12 +2,15 @@ var express = require('express');
 
 var app = express();
 app.set('view engine', 'ejs');
+app.use('/assets', express.static('assets')); //request to /assets/* searches for file called * in assets folder
+
+
 
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
+    res.render('index');
 });
 app.get('/contact', function(req, res){
-    res.send('this is the contact');
+    res.render('contact');
 });
 app.get('/profile/:id', function(req, res){
     var fakeData = {age: 29, job: 'ninja', letters:['a', 'b', 'c']};
