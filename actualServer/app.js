@@ -1,6 +1,5 @@
 var express = require('express');
 var todoController = require('./controllers/todoController');
-require('dotenv').config()
 var app = express();
 
 

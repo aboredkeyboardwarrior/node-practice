@@ -19,39 +19,51 @@ var todoSchema = new mongoose.Schema({
 
 // model name as stored as collection on mongodb, schema used
 var todo = mongoose.model('todo', todoSchema);
-var item1 = todo({item: 'Get Flowers'}).save(function(err){
-    if (err) throw err;
-    console.log('item')
-});
+// var item1 = todo({item: 'Get Flowers'}).save(err => {
+//     if (err) throw err;
+//     console.log('item logged ')
+// });
 
 //fake data
-var data = [{item: 'get milk'}, {item: 'walk dog'}, {item:'code'}];
+// var data = [{item: 'get milk'}, {item: 'walk dog'}, {item:'code'}];
 
 var urlencodedParser = bodyParser.urlencoded({extended:false});
 
-module.exports = function(app){
+module.exports = (app) => {
     //to generate todo list
-    app.get('/todo', function(req,res){
-        res.render('todo', {todos: data});
+    app.get('/todo', (req,res) => {
+        //get data from mongodb and pass into view
+        //finds all items in collection, else specify data in {} of targetted items
+        todo.find({}, (err, data) => {
+            if (err) throw err;
+            res.render('todo', {todos: data});
+        });
     });
 
     //to add todos
-    app.post('/todo', urlencodedParser, function(req,res){
-        //add body of request to end of data array
-        data.push(req.body);
-        //returns to client new data array
-        //jQuery in client-side will reload page, new get request to todo page with controller containing new data array
-        res.json(data);
+    app.post('/todo', urlencodedParser, (req,res) => {
+        //add body of request to mongodb
+        var newTodo = todo(req.body).save(function(err,data){
+            if (err) throw err;
+            res.json(data);
+        });
     });
 
     //to delete task
     app.delete('/todo/:item', function(req, res){
-        //replace spaces with -
-        //use filter array method to cycle through array, put each item into function as todo arg
-        // if false returned, delete from array, else keep
-        data = data.filter(function(todo){
-            return todo.item.replace(/ /g, "-") !== req.params.item;
+        //delete requested item from mongodb
+        //replaces - from url encoding with spaces
+        todo.find({item: req.params.item.replace(/\-/g, " ")}).deleteOne((err, data)=>{
+            if (err) throw err;
+            res.json(data);
         });
-        res.json(data);
+
+        // //replace spaces with -
+        // //use filter array method to cycle through array, put each item into function as todo arg
+        // // if false returned, delete from array, else keep
+        // data = data.filter(function(todo){
+        //     return todo.item.replace(/ /g, "-") !== req.params.item;
+        // });
+        // res.json(data);
     });
 }
